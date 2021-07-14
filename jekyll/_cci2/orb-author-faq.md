@@ -13,7 +13,8 @@ This document describes various questions and technical issues that you may find
 * TOC
 {:toc}
 
-## Errors Claiming Namespace or Publishing Orbs
+## Errors claiming namespace or publishing orbs
+{: #errors-claiming-namespace-or-publishing-orbs }
 
 * Question: I receive an error when attempting to claim a namespace or publish a production orb.
 
@@ -29,7 +30,21 @@ Error: Unable to find organization YOUR_ORG_NAME of vcs-type GITHUB: Must have m
 
 Read more in the [Orb CLI Permissions Matrix]({{site.baseurl}}/2.0/orb-author-intro/#permissions-matrix).
 
-## Secure API Tokens
+## Deleting Orbs
+{: #deleting-orbs }
+
+* Question: Is it possible to delete an orb I've created?
+
+* Answer: No. Orbs are public by default and immutable, once a version of an orb is published it can not be changed. This is done so users can reasonably expect a known version of an orb will behave the same on every run. Deleting an orb could potentially lead to a failing pipeline in any of its user's projects.
+
+Orbs can however be "Unlisted" from the [Orb Registry](https://circleci.com/developer/orbs). Unlisted orbs still exist and are discoverable via the API or CLI, but will not appear in the Orb Registry results. This may be desired if for instance, an orb is no longer maintained.
+
+```
+circleci orb unlist myOrb/myNamespace
+```
+
+## Secure API tokens
+{: #secure-api-tokens }
 
 * Question: How do I protect a user's API tokens and other sensitive information?
 
@@ -39,10 +54,11 @@ Read more:
 * [Environment Variable Name]({{site.baseurl}}/2.0/reusing-config/#environment-variable-name)
 * [Best Practices]({{site.baseurl}}/2.0/orbs-best-practices/)
 
-## Environment Variables
+## Environment variables
+{: #environment-variables }
 
 * Question: How can I require a user to add an environment variable?
-  
+
 * Answer: Create a parameter for the environment variable name, even if it is a statically named environment variable the user _should not_ change. Then, assign it the correct default value. In the parameter description let the user know if this value should not be changed. Either way, consider instructing the user on how they can obtain their API key.
 
 Consider validating required environment variables. See more in the [Orb Author Best Practices]({{site.baseurl}}/2.0/orbs-best-practices/#commands) guide.
@@ -51,16 +67,17 @@ Read more:
 * [Environment Variable Name parameter type]({{site.baseurl}}/2.0/reusing-config/#environment-variable-name)
 * [Best Practices]({{site.baseurl}}/2.0/orbs-best-practices/)
 
-## Supported Programming Languages
+## Supported programming languages
+{: #supported-programming-languages }
 
 * Question: What language do I use to write an orb?
-  
+
 * Answer: Orbs are packages of [CircleCI YAML configuration]({{site.baseurl}}/2.0/configuration-reference/).
 
 CircleCI orbs package [CircleCI reusable config]({{site.baseurl}}/2.0/reusing-config/), such as [commands]({{site.baseurl}}/2.0/reusing-config/#authoring-reusable-commands), which can execute within a given [executor]({{site.baseurl}}/2.0/executor-intro/) defined by either, the user if using a _command_ within a custom job, or by the orb author if using a [reusable job]({{site.baseurl}}/2.0/orb-concepts/#jobs). The environment within which your logic is running may influence your language decisions.
 
 * Question: What programming languages can I write my Command logic in?
-  
+
 * Answer: POSIX compliant bash is the most portable and universal language. This is the recommended option when you intend to share your orb. Orbs do, however, come with the flexibility and freedom to run other programming languages or tools.
 
 **Bash**
@@ -82,7 +99,7 @@ steps:
 
 **Binary**
 
-This option is strongly discouraged wherever possible. Sometimes it may be necessary to fetch a remote binary file such as a CLI tool. These binaries should be fetched from a package manager or hosted by a VCS such as GitHub releases wherever possible. For example, installing Homebrew as a part of the [AWS Serverless orb](https://circleci.com/orbs/registry/orb/circleci/aws-serverless#commands-install)
+This option is strongly discouraged wherever possible. Sometimes it may be necessary to fetch a remote binary file such as a CLI tool. These binaries should be fetched from a package manager or hosted by a VCS such as GitHub releases wherever possible. For example, installing Homebrew as a part of the [AWS Serverless orb](https://circleci.com/developer/orbs/orb/circleci/aws-serverless#commands-install)
 
 ```yaml
 steps:
@@ -95,6 +112,7 @@ steps:
 ```
 
 ## Command vs Job
+{: #command-vs-job }
 
 * Question: Should I create a command or a job?
 
@@ -109,7 +127,8 @@ Read more:
 * [Reusable Config Reference]({{site.baseurl}}/2.0/reusing-config/)
 
 
-## See Also
+## See also
+{: #see-also }
 - Refer to [Orbs Best Practices]({{site.baseurl}}/2.0/orbs-best-practices) for suggestions on creating a production-ready orb.
 - Refer to [Orbs Concepts]({{site.baseurl}}/2.0/orb-concepts/) for high-level information about CircleCI orbs.
 - Refer to [Orb Publishing Process]({{site.baseurl}}/2.0/creating-orbs/) for information about orbs that you may use in your workflows and jobs.

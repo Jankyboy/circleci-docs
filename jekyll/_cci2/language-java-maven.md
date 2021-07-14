@@ -10,21 +10,24 @@ version:
 - Server v2.x
 ---
 
-This guide will help you get started with a Java application building with Maven on CircleCI. 
+This guide will help you get started with a Java application building with Maven on CircleCI.
 
 * TOC
 {:toc}
 
 ## Overview
+{: #overview }
 
 This is an example application showcasing how to run a Java app on CircleCI 2.1.
 This application uses the [Spring PetClinic sample project](https://projects.spring.io/spring-petclinic/). This document includes
 pared down sample configurations demonstrating different CircleCI features including workspaces,
 dependency caching, and parallelism.
 
-## Sample Configuration: version 2.1:
+## Sample configuration: version 2.1:
+{: #sample-configuration-version-21 }
 
-### A Basic Build with an Orb:
+### A basic build with an orb:
+{: #a-basic-build-with-an-orb }
 
 ```yaml
 version: 2.1
@@ -40,13 +43,14 @@ workflows:
 
 
 This config uses the language-specific orb to replace any executors, build
-tools, and commands available. Here we are using the [maven orb](https://circleci.com/orbs/registry/orb/circleci/maven),
+tools, and commands available. Here we are using the [maven orb](https://circleci.com/developer/orbs/orb/circleci/maven),
 which simplifies building and testing Java projects using Maven. The maven/test
 command checks out the code, builds, tests, and uploads the test result. The
 parameters of this command can be customized. See the maven orb docs for more
 information.
 
 ## For 2.0 Configuration (recommended for CircleCI Server only):
+{: #for-20-configuration-recommended-for-circleci-server-only }
 
 ```yaml
 version: 2.0
@@ -68,7 +72,8 @@ is a essentially a series of commands run in a clean execution environment.
 Notice the two primary parts of a job: the executor and steps. In this case, we
 are using the docker executor and passing in a CircleCI convenience image.
 
-### Using a Workflow to Build then Test
+### Using a workflow to build then test
+{: #using-a-workflow-to-build-then-test }
 
 A workflow is a dependency graph of jobs. This basic workflow runs a build job
 followed by a test job. The test job will not run unless the build job exits
@@ -109,7 +114,8 @@ workflows:
             - build
 ```
 
-### Caching Dependencies
+### Caching dependencies
+{: #caching-dependencies }
 
 The following code sample details the use of **caching**.
 
@@ -147,7 +153,8 @@ changes, you can still restore the previous cache. This means the job will only
 have to fetch the dependencies that have changed between the new `pom.xml` and the
 previous cache.
 
-### Persisting Build Artifacts to Workspace
+### Persisting build artifacts to workspace
+{: #persisting-build-artifacts-to-workspace }
 
 The following configuration sample details persisting a build artifact to a workspace.
 
@@ -196,7 +203,8 @@ This `persist_to_workspace` step allows you to persist files or directories to b
 downstream jobs in the workflow. In this case, the target directory produced by
 the build step is persisted for use by the test step.
 
-### Splitting Tests Across Parallel Containers
+### Splitting tests across parallel containers
+{: #splitting-tests-across-parallel-containers }
 
 
 {% raw %}
@@ -265,7 +273,8 @@ Adding `store_test_results` enables CircleCI to access the historical timing dat
 for previous executions of these tests, so the platform knows how to split tests
 to achieve the fastest overall runtime.
 
-### Storing Code Coverage Artifacts
+### Storing code coverage artifacts
+{: #storing-code-coverage-artifacts }
 
 ```yaml
 version: 2.0
@@ -295,7 +304,8 @@ The Maven test runner with the [JaCoCo](https://www.eclemma.org/jacoco/) plugin
 generates a code coverage report during the build. To save that report as a
 build artifact, use the `store_artifacts` step.
 
-### A Configuration
+### A configuration
+{: #a-configuration }
 
 The following code sample is the entirety of a configuration file combining the features described above.
 
@@ -376,7 +386,8 @@ the **Follow Project** button next to your forked project. Finally, delete every
 .circleci/config.yml. Nice! You just set up CircleCI for a Java app using Gradle
 and Spring.
 
-## See Also
+## See also
+{: #see-also }
 
 - See the [Deploy]({{ site.baseurl }}/2.0/deployment-integrations/) document for example deploy target configurations.
 - See the [Debugging Java OOM errors]({{ site.baseurl }}/2.0/java-oom/) document

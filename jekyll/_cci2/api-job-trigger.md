@@ -22,6 +22,7 @@ This document describes how to trigger jobs using the CircleCI API.
 {:toc}
 
 ## Overview
+{: #overview }
 
 Use the [CircleCI API](https://circleci.com/docs/api/v1/#trigger-a-new-job) to trigger [jobs]({{ site.baseurl }}/2.0/jobs-steps/#jobs-overview) that you have defined in `.circleci/config.yml`.
 
@@ -29,9 +30,13 @@ The following example shows how to trigger the `deploy_docker` job by using `cur
 
 ```bash
 curl -u ${CIRCLE_API_USER_TOKEN}: \
-     -d build_parameters[CIRCLE_JOB]=deploy_docker \
+     -d 'build_parameters[CIRCLE_JOB]=deploy_docker' \
      https://circleci.com/api/v1.1/project/<vcs-type>/<org>/<repo>/tree/<branch>
 ```
+
+Alternative syntaxes for the above example:
+- Replace single quotes with double quotes (`-d "build_parameters[CIRCLE_JOB]=deploy_docker"`)
+- Escape the square brackets (`-d build_parameters\[CIRCLE_JOB\]=deploy_docker`)
 
 Some notes on the variables used in this example:
 - `CIRCLE_API_USER_TOKEN` is a [personal API token]({{ site.baseurl }}/2.0/managing-api-tokens/#creating-a-personal-api-token).
@@ -49,9 +54,10 @@ For a complete reference of the API, see the [CircleCI API Documentation](https:
 - Jobs that are triggered via the API do **not** have access to environment variables created for [a CircleCI Context]({{ site.baseurl }}/2.0/contexts/)
 - If you wish to use environment variables they have to be defined at the [Project level]({{ site.baseurl }}/2.0/env-vars/#setting-an-environment-variable-in-a-project)
 - It is currently not possible to trigger a single job if you are using CircleCI 2.1 and Workflows
-- It is possible to trigger [workflows]({{ site.baseurl }}/2.0/workflows/) with the CircleCI API: a [singular workflow can be re-run](https://circleci.com/docs/api/v2/#rerun-a-workflow), or you may [trigger a pipeline](https://circleci.com/docs/api/v2/#trigger-a-new-pipeline) which will run its subsequent workflows. 
+- It is possible to trigger [workflows]({{ site.baseurl }}/2.0/workflows/) with the CircleCI API: a [singular workflow can be re-run](https://circleci.com/docs/api/v2/#rerun-a-workflow), or you may [trigger a pipeline](https://circleci.com/docs/api/v2/#trigger-a-new-pipeline) which will run its subsequent workflows.
 
-## Conditionally Running Jobs With the API
+## Conditionally running jobs with the API
+{: #conditionally-running-jobs-with-the-api }
 
 The next example demonstrates a configuration for building docker images with `setup_remote_docker` only for builds that should be deployed.
 
@@ -79,7 +85,7 @@ jobs:
             # replace this with your build/deploy check (i.e. current branch is "release")
             if [[ true ]]; then
               curl --user ${CIRCLE_API_USER_TOKEN}: \
-                --data build_parameters[CIRCLE_JOB]=deploy_docker \
+                --data 'build_parameters[CIRCLE_JOB]=deploy_docker' \
                 --data revision=$CIRCLE_SHA1 \
                 https://circleci.com/api/v1.1/project/github/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME/tree/$CIRCLE_BRANCH
             fi
@@ -101,6 +107,7 @@ Notes on the above example:
 - Using the `deploy` step in the build job is important to prevent triggering N builds, where N is your parallelism value - `deploy` is a special step that will only run on one container, even when the job parallelism is set greater that one.
 - We use an API call with `build_parameters[CIRCLE_JOB]=deploy_docker` so that only the `deploy_docker` job will be run.
 
-## See Also
+## See also
+{: #see-also }
 
 [Triggers]({{ site.baseurl }}/2.0/triggers/)

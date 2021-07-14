@@ -14,6 +14,7 @@ The packages it installs can be cached.
 This can potentially speed up builds but, more importantly, can reduce errors related to network connectivity.
 
 ## Using Yarn in CircleCI
+{: #using-yarn-in-circleci }
 
 Yarn might already be installed in your build environment if you are using the [`docker` executor](https://circleci.com/docs/2.0/executor-types/#using-docker).
 With [Pre-built CircleCI Docker Images](https://circleci.com/docs/2.0/circleci-images/), the NodeJS image (`circleci/node`) already has Yarn preinstalled.
@@ -28,9 +29,13 @@ curl -o- -L https://yarnpkg.com/install.sh | bash
 ```
 
 ## Caching
+{: #caching }
 
 Yarn packages can be cached to improve CI build times.
-Here's an example:
+
+Yarn 2.x added the ability to do [Zero Installs](https://yarnpkg.com/features/zero-installs); if you're using Zero Installs, you shouldn't need to do any special caching.
+
+If you're using Yarn 2.x without Zero Installs, you can do something like this:
 
 {% raw %}
 ```yaml
@@ -46,11 +51,34 @@ Here's an example:
           name: Save Yarn Package Cache
           key: yarn-packages-{{ checksum "yarn.lock" }}
           paths:
+            - .yarn/cache
+            - .yarn/unplugged
+#...
+```
+{% endraw %}
+
+An example for Yarn 1.x:
+
+{% raw %}
+```yaml
+#...
+      - restore_cache:
+          name: Restore Yarn Package Cache
+          keys:
+            - yarn-packages-{{ checksum "yarn.lock" }}
+      - run:
+          name: Install Dependencies
+          command: yarn install --frozen-lockfile --cache-folder ~/.cache/yarn
+      - save_cache:
+          name: Save Yarn Package Cache
+          key: yarn-packages-{{ checksum "yarn.lock" }}
+          paths:
             - ~/.cache/yarn
 #...
 ```
 {% endraw %}
 
-## See Also
+## See also
+{: #see-also }
 
 [Caching Dependencies]({{ site.baseurl }}/2.0/caching/)

@@ -15,8 +15,9 @@ This document is a walkthrough of a sample Dart project setup on CircleCI. The p
 We assume you have a basic working knowledge of CircleCI and associated terminology. If not, visit our [Getting Started docs]({{ site.baseurl }}/2.0/getting-started/).
 
 ## Quickstart
+{: #quickstart }
 
-**Repository**: [circleci-dart-demo](https://github.com/CircleCI-Public/circleci-dart-demo)   
+**Repository**: [circleci-dart-demo](https://github.com/CircleCI-Public/circleci-dart-demo)
 **Builds**: [circleci-dart-demo on CircleCI](https://app.circleci.com/pipelines/github/CircleCI-Public/circleci-dart-demo)
 
 1. Find the full configuration at the bottom of this document or in the repository linked above.
@@ -47,7 +48,8 @@ If you fork this project and want to push to DockerHub, this project assumes [a 
 
 See the config and modify as needed for your use case.
 
-## Config Walkthrough
+## Config walkthrough
+{: #config-walkthrough }
 
 The first section of the file defines common items. The order in which things are defined in a CircleCI configuration doesn't matter - we have laid it out this way for readability.
 
@@ -59,7 +61,7 @@ orbs:
 ```
 
 - **Config Version**: Current is `2.1`. Unless using a CircleCI Server installation, we recommend using 2.1.
-- **Orbs**: CircleCI offers [orbs](https://circleci.com/orbs/registry/), which are packaged, templatized, and reusable configuration. Here, we include the [Windows orb](https://circleci.com/orbs/registry/orb/circleci/windows) to make use of a pre-defined execution environment later on.
+- **Orbs**: CircleCI offers [orbs](https://circleci.com/developer/orbs), which are packaged, templatized, and reusable configuration. Here, we include the [Windows orb](https://circleci.com/developer/orbs/orb/circleci/windows) to make use of a pre-defined execution environment later on.
 
 {% raw %}
 
@@ -244,7 +246,8 @@ jobs:
 - The final job builds a Docker image using Google's [`dart-runtime`](https://hub.docker.com/r/google/dart-runtime) as a base.
 - The commented section is code to build, tag, and push a Docker image according to environment variables defined in a [context](https://circleci.com/docs/2.0/contexts/). It's included as an example.
 
-## Full Sample Configuration
+## Full sample configuration
+{: #full-sample-configuration }
 
 Below is the entirety of the file. Additional resources and links to supporting documentation can be found below.
 
@@ -310,9 +313,9 @@ commands:
       - store_artifacts:
           path: circleci_dart_demo.exe
 
-######################
-# Workflow Definition
-######################
+###### ################
+# Workflow definition
+###### ################
 workflows:
   version: 2.1
   test-and-build:
@@ -427,7 +430,8 @@ jobs:
 
 {% endraw %}
 
-## Additional Resources
+## Additional resources
+{: #additional-resources }
 
 - [Getting Started](https://circleci.com/docs/2.0/getting-started/#section=getting-started)
 - [Migrating to CircleCI](https://circleci.com/docs/2.0/migration-intro/#section=getting-started)

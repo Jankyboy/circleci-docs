@@ -2,6 +2,9 @@
 ---
 @import 'variables';
 @import 'sidebar';
+@import 'footer';
+@import 'global-nav';
+@import 'subnav';
 @import 'instantsearch';
 @import 'tooltip';
 
@@ -10,15 +13,15 @@ body{
 	color: $body-text-color;
 	display: block;
 	width: 100%;
-	background: linear-gradient(to right, #F7F7F7 0%, #F7F7F7 50%, #fff 50%, #fff 100%);
+	background: linear-gradient(to right, #F7F7F7 0%, #F7F7F7 30%, #fff 30%, #fff 100%);
 	font-family: 'Roboto', sans-serif;
 }
 h1, h2, h3, h4, h5, h6 {
-	font-family: 'Roboto';
+	font-family: 'Roboto', sans-serif;
   font-weight: 500;
 }
 p {
-	font-family: 'Roboto';
+	font-family: 'Roboto', sans-serif;
 	color: $body-text-color;
 }
 
@@ -31,27 +34,28 @@ a {
 	}
 }
 
-
-div.main-body{
-	overflow: auto;
+.container-semi-fluid {
+  padding-left: 15px;
+  padding-right: 15px;
+  position: relative;
 }
+
+.container-semi-fluid,
+div.main-body{
+  margin: 0 auto;
+  max-width: 1920px;
+  flex-direction: row;
+}
+
 
 div.main-body {
 	display: flex;
-	max-width: 1200px;
-	margin: 0 auto;
 	background: #fff;
-}
-
-#hits-template {
-	display: block;
-	max-width: 1180px;
-	margin: 50px auto 0 auto;
 }
 
 .text-center-small-float-right {
   float: right;
-  @media screen and (max-width: $screen-sm) {
+  @media screen and (max-width: $screen-xs-max) {
     text-align: center;
     float: none;
   }
@@ -59,7 +63,7 @@ div.main-body {
 
 .text-center-small-float-left {
   float: left;
-  @media screen and (max-width: $screen-sm) {
+  @media screen and (max-width: $screen-xs-max) {
     text-align: center;
     float: none;
   }
@@ -102,20 +106,6 @@ footer {
 	}
 }
 
-// Main Nav Additions
-nav.nav-toggle.two {
-	.btn, .btn-primary, .btn-primary-enterprise {
-		display: inline-block;
-		text-align: center;
-		vertical-align: middle;
-		font-size: 16px;
-	}
-
-	a:hover {
-		text-decoration: none;
-	}
-}
-
 // Navigation Sidebar
 #nav-button{
 	display: none;
@@ -141,17 +131,59 @@ nav.nav-toggle.two {
 	}
 }
 
+div.sidebar-offset {
+  margin-left: $leftbar-width;
+  display: flex;
+  height: 100vh;
+  overflow: scroll;
+
+  @media screen and (max-width: $screen-sm) {
+		margin-left: 0px;
+		width: 100%;
+	}
+}
+
+// Logged In/Out State
+body.loggedin {
+	.visitor-item {
+		display: none !important;
+	}
+	.dashboard-link {
+		display: block !important;
+	}
+}
+
+.dashboard-link {
+	display: none !important;
+}
+
 
 // Article
 div.article-container{
-	float: left;
-	@media screen and (max-width: $screen-sm) {
-		padding: 0 16px 0 16px;
-		width: 100%;
-	}
-	padding: 60px 48px 0 48px;
-	width: calc(100% - 260px);
+  flex: 1;
+  @media screen and (max-width: $screen-xs-max) {
+      padding: 0 16px 0 16px;
+      width: 100%;
+  }
+  padding: 0 48px;
+  width: calc(100% - #{$rightbar-width});
+  max-width: 60em; // increase readability on large screens.
 }
+
+.article-toc {
+    display: flex;
+    width: 100%;
+}
+
+.article-toc-footer {
+    flex-direction: column;
+    width: calc(100% - #{$leftbar-width});
+    @media (max-width: $screen-sm) {
+      width: 100%;
+    }
+}
+
+
 	article{
 		h2,
 		h3,
@@ -247,12 +279,10 @@ div.align-center{
 // Homepage
 body.homepage{
   .article-container{
-    @media screen and (max-width: $screen-sm) {
+    @media screen and (max-width: $screen-xs-max) {
   	  padding: 0 16px 0 16px;
-      width: 100%;
+      width: calc(100% - $leftbar-width;
     }
-	  padding: 60px 48px 0 48px;
-    width: calc(100% - 260px);
   }
 
 	article{
@@ -281,6 +311,8 @@ body.homepage{
 
 code {
   padding: 2px;
+  white-space: pre-wrap !important;
+  word-wrap: anywhere;
 }
 
 /***** Widgets ****************************************************************/

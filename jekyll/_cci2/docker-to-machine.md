@@ -13,10 +13,11 @@ version:
 This document contains some general guidelines and considerations to
 make when moving from the Docker executor to machine, or vice versa.
 
-* TOC 
+* TOC
 {:toc}
 
 ## Overview
+{: #overview }
 {:.no_toc}
 
 Occasionally, the Docker executor isn't quite the right fit for your
@@ -28,6 +29,7 @@ considerations to make, such as the tools and libraries required to be
 installed for your application and tests.
 
 ## Pre-installed software
+{: #pre-installed-software }
 
 By default, the machine executor images come installed with useful
 utilities, but application specific requirements will need to be
@@ -74,7 +76,8 @@ Additional packages can be installed with
 `sudo apt-get install <package>`. If the package in question is not
 found, `sudo apt-get update` may be required before installing it.
 
-## Running Docker containers on machine
+## Running docker containers on machine
+{: #running-docker-containers-on-machine }
 
 Machine executors come installed with Docker, which can be used
 to run your application within a container rather than installing
@@ -89,7 +92,8 @@ containers can be used is normal.
 account, machine executors can utilize this to cache your image layers
 for subsequent runs.
 
-## Why use Docker executors at all?
+## Why use docker executors at all?
+{: #why-use-docker-executors-at-all }
 
 While machine executors do offer twice the memory and a more isolated
 enviornment, there is some additional overhead regarding spin up time,
@@ -102,7 +106,8 @@ where DLC will need to be enabled.
 All executors have their pros and cons, which have been laid out here to
 help decide which is right for your pipelines.
 
-## Further Reading
+## Further reading
+{: #further-reading }
 
 We have more details on each specific executor
 [here](https://circleci.com/docs/2.0/executor-types/), which includes
